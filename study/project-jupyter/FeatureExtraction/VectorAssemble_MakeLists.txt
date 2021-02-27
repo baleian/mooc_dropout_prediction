@@ -1,0 +1,53 @@
+####################################################################################################################
+####################################################################################################################
+######################### combine all columns to 'feature' and remove all columns except enrollmnet_id and 'feature'
+
+columns_list = joined_result_no_null.columns
+columns_list.remove('enrollment_id')
+
+assembler = VectorAssembler(inputCols=columns_list, outputCol="feature")
+assemble_result = assembler.transform(joined_result_no_null)# combine columns except enrollment_id
+
+for column in columns_list:# remove all columns except enrollmnet_id and 'feature'
+    assemble_result = assemble_result.drop(column)
+    
+final_result = assemble_result.sort('enrollment_id',ascending=True)# sorted by enrollment_id. This is a final result.
+
+####################################################################################################################
+
+
+##########  Split train_dataset and test_dataset  ##########
+# final_result: feature_train + feature_test
+#     Schema - 'enrollment_id', 'feature'
+# true_df: only train enrollment_id exist
+#     Schema - 'enrollment_id', 'dropout'
+
+
+# Left Outer Join final_result and true_df
+#     train enrollment_id will have 'dropout' attribute 'True' or 'False'
+#     test enrollment_id will have 'dropout' attribute 'NULL'
+final_result = final_result.join(true_df, 'enrollment_id', how='left_outer').cache()
+
+# Split
+train_dataset_df = final_result.filter('dropout is not null').sort('enrollment_id')
+test_dataset_df = final_result.filter('dropout is null').sort('enrollment_id')
+
+
+### df.select(column_name) : return df with only that column
+### df.collect() : return matrix of df
+train_dataset = train_dataset_df.select('feature', 'dropout', 'enrollment_id').collect()
+test_dataset = test_dataset_df.select('feature', 'enrollment_id').collect()
+
+
+# train_feature: Get 'feature' column of train_dataset
+#               and change as python list
+# train_label  : Get 'dropout' column of train_dataset
+#               and change as float
+# test_feature : Get 'feature' column of test_dataset
+#               and change as list (like train_feature)
+train_feature = [list(l[0]) for l in train_dataset]
+train_label = [float(l[1]) for l in train_dataset]
+test_feature = [list(l[0]) for l in test_dataset]
+
+train_eid = [int(l[2]) for l in train_dataset]
+test_eid = [int(l[1]) for l in test_dataset]

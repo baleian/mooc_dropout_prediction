@@ -1,0 +1,24 @@
+import numpy as np
+
+model.eval()
+
+true = torch.Tensor([])
+pred = torch.Tensor([])
+for t, (x, y) in enumerate(loader_train):
+    scores_exp = model(x).exp()
+    scores_1_exp = scores_exp[:,1]
+    scores_sum_exp = scores_exp.sum(dim=1)
+    scores = torch.div(scores_1_exp,scores_sum_exp)
+    true = torch.cat((true, y),0)
+    pred = torch.cat((pred, scores),0)
+
+true = true.detach().numpy()
+pred = pred.detach().numpy()
+
+from sklearn import metrics
+
+fpr, tpr, thresholds = metrics.roc_curve(true, pred)
+
+plt.plot(fpr, tpr)
+plt.show()
+metrics.auc(fpr, tpr)

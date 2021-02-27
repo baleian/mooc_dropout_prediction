@@ -1,0 +1,3 @@
+# SQL 5
+# COUNT: 1, ACCUMULATE: 12
+results5 = spark.sql('SELECT sq1.course_id as course_id, sq2.do/sq1.ce as dropoutrate_per_course FROM (SELECT course_id, count(enrollment_id) as ce FROM enrollment_t group by course_id) as sq1,(SELECT course_id, count(dropout) as do FROM enrollment_t as e, true_t as t WHERE e.enrollment_id = t.enrollment_id and t.dropout = 1 group by course_id) as sq2 WHERE sq1.course_id = sq2.course_id order by sq1.course_id').cache()

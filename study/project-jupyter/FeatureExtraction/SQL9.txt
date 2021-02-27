@@ -1,0 +1,3 @@
+#SQL 9 
+# COUNT: 1, ACCUMULATE: 16
+results9 = spark.sql('SELECT e.enrollment_id, datediff( MAX(l.date), MIN(l.date) ) as period FROM log_t as l, enrollment_t  as e WHERE e.enrollment_id = l.enrollment_id group by e.enrollment_id order by e.enrollment_id').cache()

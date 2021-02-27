@@ -1,0 +1,1 @@
+results6 = spark.sql('SELECT username, count(enrollment_id) as count_eid_per_user FROM enrollment_t group by username order by username').cache()

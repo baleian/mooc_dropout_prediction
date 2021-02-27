@@ -1,0 +1,4 @@
+SELECT e.course_id, e.enrollment_id, l.event, count(l.event) as count_event 
+ FROM log_t as l, enrollment_t as e, true_t as t 
+ WHERE t.dropout = 0 and t.enrollment_id = e.enrollment_id and e.enrollment_id = l.enrollment_id 
+ group by e.course_id, e.enrollment_id, l.event

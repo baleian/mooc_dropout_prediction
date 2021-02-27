@@ -1,0 +1,6 @@
+responsecode,responsedesc
+1xx,informal
+2xx,success
+3xx,redirection
+4xx,client error
+5xx,server error

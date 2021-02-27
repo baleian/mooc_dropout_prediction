@@ -1,0 +1,43 @@
++-------------------+-------------+--------+--------------------+------+-------------------+
+|               date|enrollment_id|   event|           object_id|source|               time|
++-------------------+-------------+--------+--------------------+------+-------------------+
+|2014-06-14 00:00:00|            1|navigate|Oj6eQgzrdqBMlaCta...|server|1990-01-01 09:38:29|
+|2014-06-14 00:00:00|            1|  access|3T6XwoiMKgol57cm2...|server|1990-01-01 09:38:39|
+|2014-06-14 00:00:00|            1|  access|qxvBNYTfiRkNcCvM0...|server|1990-01-01 09:38:39|
++-------------------+-------------+--------+--------------------+------+-------------------+
+only showing top 3 rows
+
+root
+ |-- date: timestamp (nullable = true)
+ |-- enrollment_id: long (nullable = true)
+ |-- event: string (nullable = true)
+ |-- object_id: string (nullable = true)
+ |-- source: string (nullable = true)
+ |-- time: timestamp (nullable = true)
+
++-------+-------------+
+|dropout|enrollment_id|
++-------+-------------+
+|  false|            3|
+|  false|            4|
+|  false|            6|
++-------+-------------+
+only showing top 3 rows
+
++--------------------+-------------------+-------------------+
+|           course_id|           fromdate|             todate|
++--------------------+-------------------+-------------------+
+|bWdj2GDclj5ofokWj...|2014-05-26 00:00:00|2014-06-24 00:00:00|
+|RXDvfPUBYFlVdlueB...|2014-05-25 00:00:00|2014-06-23 00:00:00|
+|fbPkOYLVPtPgIt0Mx...|2014-01-17 00:00:00|2014-02-15 00:00:00|
++--------------------+-------------------+-------------------+
+only showing top 3 rows
+
++--------------------+-------------+--------------------+
+|           course_id|enrollment_id|            username|
++--------------------+-------------+--------------------+
+|DPnLzkJJqOOPRJfBx...|            1|9Uee7oEuuMmgPx2Iz...|
+|7GRhBDsirIGkRZBtS...|            3|1qXC7Fjbwp66GPQc6...|
+|DPnLzkJJqOOPRJfBx...|            4|FIHlppZyoq8muPbdV...|
++--------------------+-------------+--------------------+
+only showing top 3 rows

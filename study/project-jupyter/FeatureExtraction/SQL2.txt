@@ -1,0 +1,11 @@
+# SQL 2
+# COUNT: 2, ACCUMULATE: 9
+results2 = spark.sql('''SELECT enrollment_id,
+sum(CASE WHEN source = "browser" THEN count_event ELSE 0 END) s_browser,
+sum(CASE WHEN source = "server" THEN count_event ELSE 0 END) s_server
+FROM 
+ (SELECT enrollment_id,source, count(*) as count_event FROM log_t
+ group by enrollment_id, source order by enrollment_id)
+ group by enrollment_id
+ order by enrollment_id
+ ''').cache()

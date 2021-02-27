@@ -1,0 +1,7 @@
+#SQL 7
+# COUNT: 1, ACCUMULATE: 14
+results7 = spark.sql('SELECT e.username as username, count(e.enrollment_id) as dropout_per_user FROM true_t as t, enrollment_t as e WHERE t.enrollment_id = e.enrollment_id and t.dropout = 1 group by e.username order by e.username').cache()
+
+# SQL 8
+# COUNT: 1, ACCUMULATE: 15
+results8 = spark.sql('SELECT sq1.username as username , sq2.do/sq1.ce as dropoutrate_per_user FROM (SELECT username, count(enrollment_id) as ce FROM enrollment_t group by username) as sq1,(SELECT username, count(dropout) as do FROM enrollment_t as e, true_t as t WHERE e.enrollment_id = t.enrollment_id and t.dropout = 1 group by username) as sq2 WHERE sq1.username = sq2.username order by sq1.username').cache()

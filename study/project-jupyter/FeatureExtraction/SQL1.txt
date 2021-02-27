@@ -1,0 +1,16 @@
+# SQL 1
+# COUNT: 7
+results1 = spark.sql('''SELECT enrollment_id,
+sum(CASE WHEN event = "discussion" THEN count_event ELSE 0 END) c_discusion,
+sum(CASE WHEN event = "wiki" THEN count_event ELSE 0 END) c_wiki,
+sum(CASE WHEN event = "page_close" THEN count_event ELSE 0 END) c_page_close,
+sum(CASE WHEN event = "access" THEN count_event ELSE 0 END) c_access,
+sum(CASE WHEN event = "video" THEN count_event ELSE 0 END) c_video,
+sum(CASE WHEN event = "navigate" THEN count_event ELSE 0 END) c_navigate,
+sum(CASE WHEN event = "problem" THEN count_event ELSE 0 END) c_problem 
+FROM 
+ (SELECT enrollment_id, event, count(*) as count_event
+ FROM log_t 
+ group by enrollment_id, event) 
+ group by enrollment_id 
+ order by enrollment_id ''').cache()

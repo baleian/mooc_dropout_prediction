@@ -1,0 +1,7 @@
+# SQL 3
+# COUNT: 1, ACCUMULATE: 10
+results3 = spark.sql('SELECT course_id, count(enrollment_id) as count_eid_per_course FROM enrollment_t group by course_id order by course_id').cache()
+
+# SQL 4
+# COUNT: 1, ACCUMULATE: 11
+results4 = spark.sql('SELECT course_id, count(e.enrollment_id) as dropout_per_course FROM enrollment_t as e, true_t as t WHERE e.enrollment_id = t.enrollment_id and t.dropout = 1 group by course_id order by course_id').cache()
